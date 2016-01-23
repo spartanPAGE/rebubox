@@ -12,6 +12,8 @@
 #include "console/ui/core.hpp"
 #include "console/ui/label/label.hpp"
 
+#include "game/canvas/console-canvas-singleton.hpp"
+
 #include <string>
 #include <chrono>
 using namespace std;
@@ -19,12 +21,13 @@ using namespace std;
 using console::graphics::color;
 using rebubox::main_loop::frame_t;
 
-#include "game/entity/actor/py-actor.hpp"
+#include "game/python/python.hpp"
 
 int main(){
     console::set_cursor_visibility(false);
 
-    console_canvas canvas(85, 15);
+    rebubox::canvas_singleton::init(85, 15);
+    auto &canvas = rebubox::canvas_singleton::get_instance();
     console_drawer canvas_drawer(canvas);
 
     rebubox::world world(60, 15);
@@ -33,9 +36,12 @@ int main(){
     console::ui::core ui_core;
     ui_core.add_element("frames_counter", new console::ui::label(canvas, "", { 60, 0 }, 25, color::cyan, color::dark_yellow));
 
+    rebubox::python_interpreter py_interpreter;
+    py_interpreter.init();
+
     rebubox::entity::actors_manager actors;
     actors.add_actor(new rebubox::entity::player(canvas, { 2, 2 }));
-
+ 
     auto &blocks = world.get_blocks();
 
     for(size_t y = 0; y < blocks.height(); ++y){
@@ -51,6 +57,9 @@ int main(){
     };
 
     auto update = [&](frame_t){
+        py_interpreter.guard([&]{
+            py_interpreter.pyupdate();
+        });
         actors.update_all();
 
         ui_core.update();

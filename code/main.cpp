@@ -54,10 +54,11 @@ int main(){
     };
 
     auto end_game = [](frame_t){
-        char esc = 27;
+        //todo: add console input buffer
+        /*char esc = 27;
         if(console::key_pressed()){
             return console::get_key() == esc;
-        }
+        }*/
         return false;
     };
 

@@ -33,7 +33,12 @@ void actor::draw(){
 
     for(size_t y = 0; y < representation.height(); ++y){
         for(size_t x = 0; x < representation.width(); ++x){
-            draw_target.draw_at(translated_pos.x+x, translated_pos.y+y, representation[x][y]);
+            auto finalx = translated_pos.x + x;
+            auto finaly = translated_pos.y + y;
+
+            if(finalx >= 0 && finaly >= 0 && finalx < draw_target.width() && finaly < draw_target.height()){
+                draw_target.draw_at(translated_pos.x + x, translated_pos.y + y, representation[x][y]);
+            }
         }
     }
 }

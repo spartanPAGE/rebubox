@@ -1,5 +1,6 @@
 #pragma once
 #include <vector>
+#include <iterator>
 
 namespace math{
 
@@ -17,11 +18,11 @@ struct matrix2d{
     auto *operator[](size_t idx){ return (&_data[0]) + (idx * _height); }
     const auto *operator[](size_t idx) const{ return _data.data() + (idx * _height); }
 
-    auto begin(){ return ::begin(_data); }
-    auto begin() const{ return ::begin(_data); }
+    auto begin(){ return std::begin(_data); }
+    auto begin() const{ return std::begin(_data); }
 
-    auto end(){ return ::end(_data); }
-    auto end() const{ return ::end(_data); }
+    auto end(){ return std::end(_data); }
+    auto end() const{ return std::end(_data); }
 private:
     size_t _width, _height;
     std::vector<T> _data;

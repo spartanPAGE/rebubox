@@ -1,6 +1,8 @@
 #pragma once
 
 #include "math/2d/matrix.hpp"
+#include <iterator>
+#include <algorithm>
 
 namespace math{
 
@@ -34,7 +36,7 @@ public:
         buffer[x][y] = val;
     }
     void fill(T val){
-        std::fill(begin(buffer), end(buffer), val);
+        std::fill_n(buffer.begin(), buffer.width() * buffer.height(), val);
     }
     const canvas_t &get_buffer() const{
         return buffer;

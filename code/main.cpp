@@ -1,21 +1,28 @@
-#include "console/canvas/console-canvas.hpp"
+#include "console/console.hpp"
 #include "console/canvas/console-drawer.hpp"
-
-#include "console/input-utils/input-utils.hpp"
 
 #include "game/world/world.hpp"
 #include "game/world/drawer/world-drawer.hpp"
 
 #include "game/main-loop/main-loop.hpp"
+
+#include "game/entity/player/player.hpp"
+#include "game/entity/actor/manager/actors-manager.hpp"
+
 using console::graphics::color;
 using rebubox::main_loop::frame_t;
 
 int main(){
+    console::set_cursor_visibility(false);
+
     console_canvas canvas(119, 29);
     console_drawer canvas_drawer(canvas);
 
     rebubox::world world(60, 29);
     rebubox::world_drawer world_drawer(canvas, world);
+
+    rebubox::entity::actors_manager actors;
+    actors.add_actor(new rebubox::entity::player(canvas, { 2, 2 }));
 
     auto &blocks = world.get_blocks();
 
@@ -26,9 +33,20 @@ int main(){
         }
     }
 
-    auto update = [&](frame_t){};
+    auto consume_keys = []{
+        while(console::key_pressed())
+            console::get_key();
+    };
+
+    auto update = [&](frame_t){
+        actors.update_all();
+
+        //consume_keys();
+    };
+
     auto draw = [&](frame_t frame){
         world_drawer.draw();
+        actors.draw_all();
 
         frame == 1
             ? canvas_drawer.draw()
@@ -40,9 +58,11 @@ int main(){
         if(console::key_pressed()){
             return console::get_key() == esc;
         }
+        return false;
     };
 
     rebubox::start_main_loop(update, draw, end_game);
 
+    console::set_cursor_visibility(true);
     console::set_color(color::white, color::black);
 }

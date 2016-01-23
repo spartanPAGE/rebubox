@@ -7,6 +7,8 @@
 #include "game/draw-target/target.hpp"
 namespace rebubox{
 
+namespace entity{
+
 class actor{
 public:
     using representation_block_t = actor_representation_block_t;
@@ -21,13 +23,16 @@ public:
     virtual void set_position(const math::point2d &);
 
     virtual void update() abstract;
-    virtual void draw() abstract;
+    virtual void draw();
 
     focused_draw_target_t get_draw_target();
     draw_target_view_t get_draw_target() const;
 protected:
     focused_draw_target_t draw_target;
-    math::point2d position;
+    math::point2d position, translation = {0, 0};
+    representation_t representation;
 };
+
+}
 
 }

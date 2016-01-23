@@ -2,10 +2,12 @@
 
 namespace rebubox{
 
+namespace entity{
+
 actor::actor(focused_draw_target_t fdtarget, const math::point2d &pos):
     draw_target(fdtarget),
-    position(pos)
-{}
+    position(pos),
+    representation(0, 0){}
 
 actor::~actor(){}
 
@@ -23,7 +25,18 @@ void actor::set_position(const math::point2d &pos){
 
 void actor::update(){}
 
-void actor::draw(){}
+void actor::draw(){
+    math::point2d translated_pos = {
+        position.x+translation.x, 
+        position.y+translation.y
+    };
+
+    for(size_t y = 0; y < representation.height(); ++y){
+        for(size_t x = 0; x < representation.width(); ++x){
+            draw_target.draw_at(translated_pos.x+x, translated_pos.y+y, representation[x][y]);
+        }
+    }
+}
 
 focused_draw_target_t actor::get_draw_target(){
     return draw_target;
@@ -31,6 +44,8 @@ focused_draw_target_t actor::get_draw_target(){
 
 draw_target_view_t actor::get_draw_target() const{
     return draw_target;
+}
+
 }
 
 }

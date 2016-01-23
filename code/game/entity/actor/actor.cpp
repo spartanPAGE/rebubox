@@ -4,22 +4,18 @@ namespace rebubox{
 
 namespace entity{
 
-actor::actor(focused_draw_target_t fdtarget, const math::point2d &pos):
+actor::actor(focused_draw_target_t fdtarget, point pos):
     draw_target(fdtarget),
     position(pos),
     representation(0, 0){}
 
 actor::~actor(){}
 
-math::point2d &actor::get_position(){
+actor::point actor::get_position() const{
     return position;
 }
 
-const math::point2d &actor::get_position() const{
-    return position;
-}
-
-void actor::set_position(const math::point2d &pos){
+void actor::set_position(point pos){
     position = pos;
 }
 

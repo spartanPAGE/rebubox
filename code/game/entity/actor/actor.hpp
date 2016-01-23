@@ -13,14 +13,13 @@ class actor{
 public:
     using representation_block_t = actor_representation_block_t;
     using representation_t = actor_representation_t;
+    using point = math::point2d;
 public:
-    actor(focused_draw_target_t, const math::point2d &position);
+    actor(focused_draw_target_t, point position);
     virtual ~actor();
 
-    virtual math::point2d &get_position();
-    virtual const math::point2d &get_position() const;
-
-    virtual void set_position(const math::point2d &);
+    point get_position() const;
+    void set_position(point);
 
     virtual void update() abstract;
     virtual void draw();
@@ -29,7 +28,7 @@ public:
     draw_target_view_t get_draw_target() const;
 protected:
     focused_draw_target_t draw_target;
-    math::point2d position, translation = {0, 0};
+    point position, translation = {0, 0};
     representation_t representation;
 };
 

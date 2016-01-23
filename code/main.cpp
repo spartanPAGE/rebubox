@@ -19,6 +19,8 @@ using namespace std;
 using console::graphics::color;
 using rebubox::main_loop::frame_t;
 
+#include "game/entity/actor/py-actor.hpp"
+
 int main(){
     console::set_cursor_visibility(false);
 

@@ -21,9 +21,10 @@ using namespace std;
 using console::graphics::color;
 using rebubox::main_loop::frame_t;
 
-#include "game/python/python.hpp"
 
-int main(){
+#include "lua/lua-core.hpp"
+
+int main(int argc, char *argv[]){
     console::set_cursor_visibility(false);
 
     rebubox::canvas_singleton::init(85, 15);
@@ -36,11 +37,8 @@ int main(){
     console::ui::core ui_core;
     ui_core.add_element("frames_counter", new console::ui::label(canvas, "", { 60, 0 }, 25, color::cyan, color::dark_yellow));
 
-    rebubox::python_interpreter py_interpreter;
-    py_interpreter.init();
-
-    rebubox::entity::actors_manager actors;
-    actors.add_actor(new rebubox::entity::player(canvas, { 2, 2 }));
+    //rebubox::entity::actors_manager actors;
+    //actors.add_actor(new rebubox::entity::player(canvas, { 2, 2 }));
  
     auto &blocks = world.get_blocks();
 
@@ -51,16 +49,20 @@ int main(){
         }
     }
 
+    rebubox::lua_core lua_core;
+    lua_core.init();
+    lua_core.load_file("rebubox/scripts/main.lua");
+    lua_core.run(0, 0, 0);
+
     auto consume_keys = []{
         while(console::key_pressed())
             console::get_key();
     };
 
     auto update = [&](frame_t){
-        py_interpreter.guard([&]{
-            py_interpreter.pyupdate();
-        });
-        actors.update_all();
+        //actors.update_all();
+        lua_core.pick_global("update");
+        lua_core.run(0, 0, 0);
 
         ui_core.update();
         //consume_keys();
@@ -68,7 +70,9 @@ int main(){
 
     auto draw = [&](frame_t frame){
         world_drawer.draw();
-        actors.draw_all();
+        //actors.draw_all();
+        lua_core.pick_global("draw");
+        lua_core.run(0, 0, 0);
 
         ui_core.access_element_by_tag("frames_counter").as<console::ui::label>()
             .set_text("frames counter: " + to_string(frame));
@@ -83,11 +87,6 @@ int main(){
     };
 
     auto end_game = [](frame_t){
-        //todo: add console input buffer
-        /*char esc = 27;
-        if(console::key_pressed()){
-            return console::get_key() == esc;
-        }*/
         return false;
     };
 
@@ -95,4 +94,6 @@ int main(){
 
     console::set_cursor_visibility(true);
     console::set_color(color::white, color::black);
+
+    lua_core.finish();
 }

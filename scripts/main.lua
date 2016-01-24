@@ -1,13 +1,9 @@
---[[local helloModule = require("rebubox.scripts.hello")
-
-helloModule.greet()
-print(type('a'))
-]]--
+local graphics = require("rebubox.scripts.api.graphics")
 
 function update()
   
 end
 
 function draw()
-  rebubox_draw_at(0, 0, '@', 4, 12)
+  graphics.draw_at(0, 0, '@', graphics.color.yellow, graphics.color.dark_red)
 end

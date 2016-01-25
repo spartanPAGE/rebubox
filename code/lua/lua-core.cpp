@@ -1,7 +1,7 @@
 #include "lua-core.hpp"
 
 #include "game/canvas/console-canvas-singleton.hpp"
-
+#include "console/input-utils/buffer/input-buffer.hpp"
 #include <iostream>
 #include <string>
 #include <cmath>
@@ -26,6 +26,12 @@ int lua_rebubox_draw_at(lua_State *state){
     return 0;
 }
 
+//[string] rebubox_input()
+int lua_rebubox_input(lua_State *state){
+    lua_pushstring(state, console::input_buffer::data.c_str());
+    return 1;
+}
+
 void bail(lua_State *L, char *msg){
     fprintf(stderr, "\nFATAL ERROR:\n  %s: %s\n\n",
             msg, lua_tostring(L, -1));
@@ -41,6 +47,7 @@ void lua_core::init(){
 
     def(lua_rebubox_greet, "rebubox_greet");
     def(lua_rebubox_draw_at, "rebubox_draw_at");
+    def(lua_rebubox_input, "rebubox_input");
 }
 
 void lua_core::add_path(const char *path){

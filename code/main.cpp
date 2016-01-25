@@ -36,9 +36,6 @@ int main(int argc, char *argv[]){
 
     console::ui::core ui_core;
     ui_core.add_element("frames_counter", new console::ui::label(canvas, "", { 60, 0 }, 25, color::cyan, color::dark_yellow));
-
-    //rebubox::entity::actors_manager actors;
-    //actors.add_actor(new rebubox::entity::player(canvas, { 2, 2 }));
  
     auto &blocks = world.get_blocks();
 
@@ -60,17 +57,18 @@ int main(int argc, char *argv[]){
     };
 
     auto update = [&](frame_t){
-        //actors.update_all();
+        console::input_buffer::collect();
+
         lua_core.pick_global("update");
         lua_core.run(0, 0, 0);
 
         ui_core.update();
-        //consume_keys();
+
+        console::input_buffer::clear();
     };
 
     auto draw = [&](frame_t frame){
         world_drawer.draw();
-        //actors.draw_all();
         lua_core.pick_global("draw");
         lua_core.run(0, 0, 0);
 

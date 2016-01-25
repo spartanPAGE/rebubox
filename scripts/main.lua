@@ -1,9 +1,11 @@
-local graphics = require("rebubox.scripts.api.graphics")
+local playerModule = require("rebubox.scripts.player")
+
+local player = playerModule.Player:new{}
 
 function update()
-  
+  player:update()
 end
 
 function draw()
-  graphics.draw_at(0, 0, '@', graphics.color.yellow, graphics.color.dark_red)
+  player:draw()
 end

@@ -31,20 +31,8 @@ int main(int argc, char *argv[]){
     auto &canvas = rebubox::canvas_singleton::get_instance();
     console_drawer canvas_drawer(canvas);
 
-    rebubox::world world(60, 15);
-    rebubox::world_drawer world_drawer(canvas, world);
-
     console::ui::core ui_core;
     ui_core.add_element("frames_counter", new console::ui::label(canvas, "", { 60, 0 }, 25, color::cyan, color::dark_yellow));
- 
-    auto &blocks = world.get_blocks();
-
-    for(size_t y = 0; y < blocks.height(); ++y){
-        auto block_id = (rebubox::world_block_id)(y/10);
-        for(size_t x = 0; x < blocks.width(); ++x){
-            blocks[x][y] = block_id;
-        }
-    }
 
     rebubox::lua_core lua_core;
     lua_core.init();
@@ -68,7 +56,6 @@ int main(int argc, char *argv[]){
     };
 
     auto draw = [&](frame_t frame){
-        world_drawer.draw();
         lua_core.pick_global("draw");
         lua_core.run(0, 0, 0);
 

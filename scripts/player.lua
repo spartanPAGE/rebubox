@@ -4,10 +4,10 @@ local actorModule = require("rebubox.scripts.core.actors.actor")
 local graphics = require("rebubox.scripts.api.graphics")
 local input = require("rebubox.scripts.api.input")
 
+local field = require("rebubox.scripts.game.world.field")
+
 playerModule.Player = actorModule.Actor:new{
-  repr = "@", 
-  fgcol = graphics.color.yellow, 
-  bgcol = graphics.color.dark_red
+  graphic = field.createField('@', graphics.color.yellow, graphics.color.dark_red)
 }
 
 function playerModule.Player:handleInput()
@@ -33,7 +33,7 @@ end
 
 function playerModule.Player:draw()
   local x, y = self:getPosition()
-  graphics.draw_at(x, y, self.repr, self.fgcol, self.bgcol)
+  graphics.draw_at(x, y, self.graphic.representation, self.graphic.fgcol, self.graphic.bgcol)
 end
 
 return playerModule

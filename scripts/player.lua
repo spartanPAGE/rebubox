@@ -7,7 +7,7 @@ local input = require("rebubox.scripts.api.input")
 local field = require("rebubox.scripts.game.world.field")
 
 playerModule.Player = actorModule.Actor:new{
-  graphic = field.createField('@', graphics.color.yellow, graphics.color.dark_red)
+  graphic = field.create('@', graphics.color.yellow, graphics.color.dark_red)
 }
 
 function playerModule.Player:handleInput()

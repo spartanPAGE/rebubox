@@ -13,7 +13,7 @@ function fieldModule.Field:new(object)
   return object
 end
 
-function fieldModule.createField(repr, fg, bg)
+function fieldModule.create(repr, fg, bg)
   local result = fieldModule.Field:new()
   result.representation = repr
   result.fgcol = fg

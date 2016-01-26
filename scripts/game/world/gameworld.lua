@@ -1,12 +1,12 @@
 local worldModule = {}
 
 local fieldModule = require("rebubox.scripts.game.world.field")
-local graphics = require("rebubox.scripts.api.graphics")
+local blocks = require("rebubox.scripts.game.world.gameblocks")
 
 worldModule.World = {
   width = 0,
   height = 0,
-  blocks = {}
+  blockIds = {}
 }
 
 function worldModule.World:new(object)
@@ -21,11 +21,11 @@ function worldModule.World:translateToIndex(x, y)
 end
 
 function worldModule.World:fieldAt(x, y)
-  return self.blocks[self:translateToIndex(x, y)]
+  return self.blockIds[self:translateToIndex(x, y)]
 end
 
 function worldModule.World:setFieldAt(x, y, value)
-  self.blocks[self:translateToIndex(x, y)] = value
+  self.blockIds[self:translateToIndex(x, y)] = value
 end
 
 function worldModule.World:setSize(w, h)
@@ -34,18 +34,18 @@ function worldModule.World:setSize(w, h)
 
   for x = 1, w do
     for y = 1, h do
-      self:setFieldAt(x, y, fieldModule.createField('#', graphics.color.green, graphics.color.dark_green))
+      self:setFieldAt(x, y, blocks.gameblockId.empty)
     end
   end
 end
 
-function worldModule.World:draw()
+--[[function worldModule.World:draw()
   for x = 1, self.width do
     for y = 1, self.height do
       local field = self:fieldAt(x, y)
       graphics.draw_at(x-1, y-1, field.representation, field.fgcol, field.bgcol)
     end
   end
-end
+end]]
 
 return worldModule

@@ -1,9 +1,6 @@
 #include "console/console.hpp"
 #include "console/canvas/console-drawer.hpp"
 
-#include "game/world/world.hpp"
-#include "game/world/drawer/world-drawer.hpp"
-
 #include "game/main-loop/main-loop.hpp"
 
 #include "game/entity/player/player.hpp"
@@ -27,7 +24,7 @@ using rebubox::main_loop::frame_t;
 int main(int argc, char *argv[]){
     console::set_cursor_visibility(false);
 
-    rebubox::canvas_singleton::init(85, 15);
+    rebubox::canvas_singleton::init(85, 20);
     auto &canvas = rebubox::canvas_singleton::get_instance();
     console_drawer canvas_drawer(canvas);
 

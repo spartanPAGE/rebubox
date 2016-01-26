@@ -19,6 +19,9 @@ graphics.color = {
     white = 15
 }
 
+graphics.console_width = 85
+graphics.console_height = 20
+
 function graphics.draw_at(x, y, char, fgcol, bgcol)
   rebubox_draw_at(x, y, char, fgcol, bgcol)
 end
